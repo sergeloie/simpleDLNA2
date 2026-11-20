@@ -1,0 +1,31 @@
+<Project>
+  <!--
+    Общие свойства для всех проектов решения.
+    Актуальная целевая платформа Windows + современная версия языка C#.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <!-- windows desktop (WinForms + System.Drawing.Common) доступен всем проектам -->
+    <UseWindowsForms>true</UseWindowsForms>
+
+    <!-- версии задаются в AssemblyInfo.cs / GlobalAssemblyInfo.cs -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- легаси-кэш файловой базы использует BinaryFormatter -->
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+
+    <!-- устаревшие, но всё ещё используемые API (BinaryFormatter, WebRequest, P/Invoke) -->
+    <NoWarn>$(NoWarn);SYSLIB0011;SYSLIB0014;SYSLIB0021;SYSLIB0050;SYSLIB0051;CA1416</NoWarn>
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>sdlna.key.snk</AssemblyOriginatorKeyFile>
+
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>portable</DebugType>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+</Project>

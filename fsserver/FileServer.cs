@@ -82,6 +82,12 @@ namespace NMaier.SimpleDlna.FileMediaServer
 
     internal ExtensionFilter Filter { get; }
 
+    /// <summary>
+    ///   При нескольких каталогах-источниках показывать каждый из них отдельной
+    ///   папкой в корне (по умолчанию), а не сливать их содержимое в одно дерево.
+    /// </summary>
+    public bool MergeDirectories { get; set; }
+
     public void Dispose()
     {
       foreach (var w in watchers) {
@@ -145,24 +151,42 @@ namespace NMaier.SimpleDlna.FileMediaServer
       return new Guid(bytes);
     }
 
+    private string GetDirectoryTitle(DirectoryInfo dir)
+    {
+      var duplicateNames = directories.Count(
+        d => string.Equals(d.Name, dir.Name, StringComparison.OrdinalIgnoreCase));
+      if (duplicateNames < 2 || dir.Parent == null) {
+        return dir.Name;
+      }
+      return $"{dir.Name} ({dir.Parent.FullName})";
+    }
+
     private void DoRoot()
     {
-        IMediaFolder newMaster;
-        if (directories.Length == 1) {
-          newMaster = new PlainRootFolder(this, directories[0]);
-        }
-        else {
-          var virtualMaster = new VirtualFolder(
-            null,
-            FriendlyName,
-            Identifiers.GENERAL_ROOT
-            );
-          foreach (var d in directories) {
+      IMediaFolder newMaster;
+      if (directories.Length == 1) {
+        newMaster = new PlainRootFolder(this, directories[0]);
+      }
+      else {
+        var virtualMaster = new VirtualFolder(
+          null,
+          FriendlyName,
+          Identifiers.GENERAL_ROOT
+          );
+        foreach (var d in directories) {
+          if (MergeDirectories) {
+            // Устаревшее поведение: всё содержимое сливается в одно дерево.
             virtualMaster.Merge(new PlainRootFolder(this, d));
           }
-          newMaster = virtualMaster;
+          else {
+            // Каждый каталог — отдельная папка в корне.
+            virtualMaster.AdoptFolder(new PlainRootFolder(
+              this, d, GetDirectoryTitle(d), false));
+          }
         }
-        RegisterNewMaster(newMaster);
+        newMaster = virtualMaster;
+      }
+      RegisterNewMaster(newMaster);
 
       Thumbnail();
     }

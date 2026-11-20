@@ -29,7 +29,10 @@ namespace NMaier.SimpleDlna.Utilities
 
     private void Finish(StreamPumpResult result, StreamPumpCallback callback)
     {
-      callback?.BeginInvoke(this, result, callback.EndInvoke, null);
+      // Delegate.BeginInvoke не поддерживается в .NET (Core/8+).
+      if (callback != null) {
+        ThreadPool.QueueUserWorkItem(_ => callback(this, result));
+      }
       try {
         sem.Release();
       }

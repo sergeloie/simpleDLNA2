@@ -68,7 +68,8 @@ namespace NMaier.SimpleDlna
       Console.WriteLine();
       var options = new Options();
       try {
-        Console.TreatControlCAsInput = false;
+        // Не трогаем Console.TreatControlCAsInput: на .NET 8 при перенаправлении
+        // консоли (например, запуск как службы через nssm) это бросает IOException.
         Console.CancelKeyPress += CancelKeyPressed;
 
         options.Parse(args);
@@ -194,7 +195,10 @@ namespace NMaier.SimpleDlna
           throw new GetOptException("Invalid view " + v);
         }
       }
-      var fs = new FileServer(types, ids, d);
+      var fs = new FileServer(types, ids, d)
+      {
+        MergeDirectories = options.MergeDirectories
+      };
       try {
         if (!string.IsNullOrEmpty(options.FriendlyName)) {
           fs.FriendlyName = options.FriendlyName;

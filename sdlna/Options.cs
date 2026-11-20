@@ -12,7 +12,9 @@ using NMaier.SimpleDlna.Utilities;
 
 namespace NMaier.SimpleDlna
 {
-  [GetOptOptions(AcceptPrefixType = ArgumentPrefixTypes.Dashes)]
+  [GetOptOptions(
+    AcceptPrefixType = ArgumentPrefixTypes.Dashes,
+    UsageIntro = "Usage: sdlna [OPTION] [...] Directory Directory ...")]
   internal class Options : GetOpt
   {
     [Argument("cache", HelpVar = "file", HelpText = "Cache file to use for storing meta data (default: none)")] [ShortArgument('c')] public FileInfo CacheFile = null;
@@ -26,6 +28,8 @@ namespace NMaier.SimpleDlna
       string FriendlyName = string.Empty;
 
     private string[] ips = new string[0];
+
+    [Argument("merge-dirs", HelpText = "Merge contents of multiple source directories into one tree (default: show each directory as a separate folder)")] [FlagArgument(true)] public bool MergeDirectories = false;
 
     [Argument("list-sort-orders", HelpText = "List all available sort orders")] [FlagArgument(true)] public bool
       ListOrders = false;
