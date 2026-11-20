@@ -2,6 +2,14 @@
 
 All notable changes to this fork are documented here.
 
+## 2026-11-20 (release packaging)
+
+- Stopped tracking compiled binaries in `build/`; added `build/` and `publish/` to `.gitignore`.
+- Ready-to-run Windows x64 archives are now published as
+  [GitHub Releases](https://github.com/sergeloie/simpleDLNA2/releases): a self-contained console
+  server and a smaller framework-dependent archive with both console server and GUI.
+- READMEs now link to the latest release.
+
 ## 2026-11-20
 
 ### Added

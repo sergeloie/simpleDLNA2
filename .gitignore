@@ -14,3 +14,5 @@ pages/
 cov-int*
 compile.bat
 sdlna/build
+build/
+publish/

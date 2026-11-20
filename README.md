@@ -27,11 +27,22 @@ Thanks to Nils Maier for the original server. All downstream changes are describ
 - Two front ends: a console server (`sdlna`) and a WinForms tray GUI (`SimpleDLNA`).
 - Per-IP, per-MAC and per-User-Agent authorization.
 
+## Downloads
+
+Ready-made Windows x64 archives are attached to the
+[latest release](https://github.com/sergeloie/simpleDLNA2/releases/latest):
+
+- `sdlna-*-win-x64-self-contained.zip` — includes the .NET 8 runtime; no installation needed.
+- `sdlna-*-win-x64-runtime-required.zip` — smaller; contains both the console server and the GUI
+  and requires the .NET 8 Desktop Runtime.
+
+Build output (`build/`, `publish/`) is generated locally and is not stored in git.
+
 ## Requirements
 
 - Windows x64.
-- [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) to run the
-  framework-dependent binaries in `build/`.
+- [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) — only for the
+  framework-dependent archive or a local `dotnet build`.
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) to build from source.
 - ffmpeg is optional (used for video thumbnails only).
 
@@ -47,7 +58,7 @@ Executables:
 - `sdlna/bin/Release/net8.0-windows/sdlna.exe` — console server
 - `SimpleDLNA/bin/Release/net8.0-windows/SimpleDLNA.exe` — GUI
 
-Publish a ready-to-copy folder (framework-dependent) into `build/`:
+Publish a ready-to-copy folder (framework-dependent) into the git-ignored `build/`:
 
 ```bat
 dotnet publish sdlna/sdlna.csproj -c Release -o build

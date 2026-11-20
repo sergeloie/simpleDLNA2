@@ -27,11 +27,22 @@ English version: [README.md](README.md)
 - Два интерфейса: консольный сервер (`sdlna`) и GUI на WinForms (`SimpleDLNA`).
 - Ограничение доступа по IP, MAC и User-Agent.
 
+## Готовые сборки
+
+Готовые архивы для Windows x64 лежат в
+[последнем релизе](https://github.com/sergeloie/simpleDLNA2/releases/latest):
+
+- `sdlna-*-win-x64-self-contained.zip` — содержит среду .NET 8, ничего ставить не нужно.
+- `sdlna-*-win-x64-runtime-required.zip` — меньше размером, содержит консольный сервер и GUI,
+  требует установленный .NET 8 Desktop Runtime.
+
+Папки `build/` и `publish/` создаются локально и не хранятся в git.
+
 ## Требования
 
 - Windows x64.
-- [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) для запуска
-  готовых бинарников из `build/`.
+- [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) — только для
+  облегчённого архива или локальной сборки через `dotnet build`.
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) для сборки из исходников.
 - ffmpeg не обязателен — используется только для миниатюр видео.
 
@@ -47,7 +58,7 @@ dotnet build sdlna.sln -c Release
 - `sdlna/bin/Release/net8.0-windows/sdlna.exe` — консольный сервер
 - `SimpleDLNA/bin/Release/net8.0-windows/SimpleDLNA.exe` — GUI
 
-Публикация готовой папки (зависит от установленного .NET) в `build/`:
+Публикация готовой папки (зависит от установленного .NET) в игнорируемую git папку `build/`:
 
 ```bat
 dotnet publish sdlna/sdlna.csproj -c Release -o build
